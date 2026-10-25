@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Photo from '../components/Photo.astro';
+import {identity,metrics,socials,journey,milestones,seo,assets} from '../data/site';
+import {path} from '../lib/urls';
+---
+<Layout {...seo.home} profile>
+<section class="hero wrap" aria-labelledby="hero-heading">
+<div class="hero-top"><span class="eyebrow"><i></i> FITNESS & LIFESTYLE CREATOR</span><span class="eyebrow hero-location">MÉXICO · EN CONSTANTE EVOLUCIÓN</span></div>
+<h1 id="hero-heading">LAGSUZ</h1>
+<div class="hero-visual"><Photo name={assets.hero} alt="Lagsuz con audífonos y lentes, retrato editorial en blanco y negro" eager sizes="(max-width:700px) 100vw, 65vw" width={2661} height={3816}/></div>
+<div class="hero-copy"><p class="hero-manifesto">BUILT THROUGH<br/><span>DISCIPLINE.</span></p><p>Fitness, hipertrofia & lifestyle.<br/>Documentando el proceso.<br/>Construyendo mi propia versión.</p><a class="button light" href="#about">EXPLORA MI HISTORIA <span>↗</span></a></div>
+<a class="hero-content-link" href="#content"><span class="round-arrow">↗</span><span>DETRÁS DEL PROCESO<br/><strong>Explora mi contenido</strong></span></a>
+<div class="hero-bottom"><span>LUIS GUTIÉRREZ ZAMORA</span><a href="#about">SCROLL TO EXPLORE ↓</a><span>01 / THE IDENTITY</span></div>
+</section>
+<div class="ticker" aria-label="Disciplina, consistencia, progreso"><div>DISCIPLINA <span>✳</span> CONSISTENCIA <span>✳</span> PROGRESO <span>✳</span> IDENTIDAD <span>✳</span> DISCIPLINA <span>✳</span></div></div>
+<section class="section wrap about" id="about"><div class="section-label"><span>01 / SOBRE MÍ</span><span>LA PERSONA DETRÁS DEL NOMBRE</span></div>
+<div class="about-grid"><div class="about-image" data-reveal><Photo name={assets.portrait} alt="Luis Gutiérrez Zamora, conocido como Lagsuz, en el gimnasio" width={1920} height={3414}/><span class="photo-caption">LAGSUZ / MÉXICO</span></div>
+<div class="about-copy" data-reveal><p class="eyebrow">NO ES SOLO UN FÍSICO. ES UNA FORMA DE SER.</p><h2>EL NOMBRE ES<br/>LAGSUZ.<br/><span class="muted">EL PROCESO<br/>ES PERSONAL.</span></h2><p>Soy <strong>Luis Gutiérrez Zamora</strong>, creador de contenido fitness mexicano. Mi mundo gira alrededor del entrenamiento, la hipertrofia y el estilo de vida.</p><p>Este espacio reúne lo que construyo dentro y fuera del gimnasio. El trabajo, la constancia y la identidad detrás de cada imagen.</p><a class="text-link" href={path('media-kit/')}>CONOCE MI PERFIL <span>↗</span></a></div></div>
+</section>
+<section class="section journey" id="journey"><div class="wrap"><div class="section-label"><span>02 / THE JOURNEY</span><span>EL TRABAJO QUE NO SIEMPRE SE VE</span></div><div class="section-heading" data-reveal><h2>NO SHORTCUTS.<br/><span class="muted">JUST THE PROCESS.</span></h2><p>No se construye de un día para otro.<br/>Se construye cada vez que vuelves.</p></div>
+<div class="journey-grid">{journey.map(item=><article class="journey-card" data-reveal><div class="journey-photo"><Photo name={item.image} alt={item.alt} sizes="(max-width:700px) 90vw, 32vw"/><span class="image-number">{item.number}</span></div><div class="card-meta"><span>{item.category}</span><span>↗</span></div><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>
+{milestones.length>0&&<ol class="milestones">{milestones.map(m=><li><span>{m.date}</span><h3>{m.title}</h3><p>{m.text}</p></li>)}</ol>}</div></section>
+<section class="discipline" aria-labelledby="discipline-title"><Photo name={assets.feature} alt="Lagsuz durante una sesión de peso muerto" sizes="100vw"/><div class="discipline-shade"></div><div class="wrap discipline-copy" data-reveal><p class="eyebrow">03 / THE MINDSET</p><h2 id="discipline-title">LA MOTIVACIÓN<br/>ES UN MOMENTO.<br/><span>LA DISCIPLINA,<br/>UNA DECISIÓN.</span></h2><p>Volver. Aprender. Ajustar. Repetir.<br/>El progreso también está en lo que nadie ve.</p><span class="signature">Lagsuz</span></div></section>
+<section class="section wrap" id="content"><div class="section-label"><span>04 / SELECTED CONTENT</span><span>DEL GIMNASIO A LA PANTALLA</span></div><div class="section-heading" data-reveal><h2>EL PROCESO.<br/><span class="muted">EN PRIMERA PERSONA.</span></h2><p>Entrenamiento, estética y vida cotidiana.<br/>Una misma identidad. Diferentes formatos.</p></div>
+<div class="metrics" data-reveal><div><strong>{metrics.views}</strong><span>VISUALIZACIONES</span></div><div><strong>{metrics.likes}</strong><span>LIKES</span></div><p>{metrics.note}</p></div>
+<div class="content-grid">{socials.slice(0,3).map((s,i)=><article class="content-card"><Photo name={['squat','hero','legpress'][i]} alt={['Entrenamiento de Lagsuz con barra','Retrato editorial de Lagsuz','Sesión de piernas de Lagsuz'][i]} sizes="(max-width:700px) 90vw, 32vw"/><div class="content-card-body"><span class="eyebrow">{['TRAINING JOURNAL','BEYOND THE GYM','EVERY REP COUNTS'][i]}</span><h3>{s.name}</h3>{s.url?<a href={s.url} target="_blank" rel="noopener noreferrer">VER CONTENIDO ↗</a>:<span class="pending">Perfil oficial próximamente</span>}</div></article>)}</div>
+</section>
+<section class="media-strip wrap" data-reveal><div><span class="eyebrow">05 / MEDIA KIT</span><h2>UNA IDENTIDAD.<br/>TODO EN UN LUGAR.</h2></div><div><p>Biografía, fotografías y datos de Lagsuz.<br/>Material oficial para conocer el proyecto.</p><a class="button light" href={path('media-kit/')}>EXPLORAR MEDIA KIT <span>↗</span></a></div></section>
+<section class="section wrap connect" id="connect"><div class="section-label"><span>06 / CONNECT</span><span>EL PROCESO CONTINÚA</span></div><h2 data-reveal>LET’S<br/><span class="outline">CONNECT.</span><span class="connect-arrow" aria-hidden="true">↗</span></h2><div class="social-list">{socials.map(s=>s.url?<a href={s.url} target="_blank" rel="noopener noreferrer"><span>{s.name}</span><span>↗</span></a>:<div><span>{s.name}</span><span class="pending">Próximamente</span></div>)}</div>{identity.email&&<a class="text-link" href={'mailto:'+identity.email}>{identity.email} ↗</a>}<p class="connect-note">Sigue el proceso en mis perfiles oficiales.</p></section>
+</Layout>

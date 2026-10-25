@@ -1,0 +1,28 @@
+{
+  "name": "lagsuz-official",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "images": "node scripts/images.mjs",
+    "check": "astro check",
+    "build": "node scripts/images.mjs && astro build",
+    "preview": "astro preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "astro": "7.4.2",
+    "@tailwindcss/vite": "latest",
+    "tailwindcss": "latest",
+    "@fontsource/barlow-condensed": "latest",
+    "@fontsource-variable/inter": "latest"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "typescript": "latest",
+    "sharp": "latest"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

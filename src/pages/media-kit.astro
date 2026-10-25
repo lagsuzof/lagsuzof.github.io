@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Photo from '../components/Photo.astro';
+import {identity,metrics,socials,seo} from '../data/site';
+import {path} from '../lib/urls';
+---
+<Layout {...seo.media}>
+<section class="wrap section kit-intro"><a class="text-link" href={path('')}>← VOLVER AL INICIO</a><p class="eyebrow">LAGSUZ / MATERIAL OFICIAL</p><h1>THE<br/><span class="muted">MEDIA KIT.</span></h1><p>Identidad, biografía y material visual.<br/>Luis Gutiérrez Zamora · Creador de contenido digital · México.</p></section>
+<section class="wrap kit-grid"><Photo name="about" alt="Fotografía oficial de Luis Gutiérrez Zamora, Lagsuz" width={1920} height={3414}/><div><span class="eyebrow">01 / BIOGRAFÍA</span><h2>LUIS GUTIÉRREZ<br/>ZAMORA.<br/><span class="muted">AKA LAGSUZ.</span></h2><h3>Biografía corta</h3><p>{identity.shortBio}</p><h3>Biografía extendida</h3><p>{identity.longBio}</p><a class="button light" href={path('media-kit.txt')} download>DESCARGAR BIOGRAFÍA <span>↓</span></a></div></section>
+<section class="section wrap"><div class="section-label"><span>02 / DATOS CLAVE</span><span>FITNESS · HIPERTROFIA · LIFESTYLE</span></div><div class="metrics"><div><strong>{metrics.views}</strong><span>VISUALIZACIONES</span></div><div><strong>{metrics.likes}</strong><span>LIKES</span></div><p>{metrics.note}</p></div></section>
+<section class="wrap section"><div class="section-label"><span>03 / MATERIAL VISUAL</span><span>FOTOGRAFÍAS REALES DE LAGSUZ</span></div><div class="kit-downloads">{[{name:'about',title:'Retrato / Biografía'},{name:'hero',title:'Identidad / Editorial'},{name:'deadlift',title:'Entrenamiento / Proceso'}].map(item=><article><Photo name={item.name} alt={item.title+' de Lagsuz'} sizes="(max-width:700px) 90vw, 30vw"/><a class="text-link" href={path('images/'+item.name+'-1400.webp')} download>{item.title} <span>↓</span></a></article>)}</div><p class="small">Las fotografías pertenecen al propietario. Su descarga no concede una licencia de uso comercial.</p></section>
+<section class="wrap kit-contact"><span class="eyebrow">04 / ENLACES Y CONTACTO</span><h2>EL SIGUIENTE<br/><span class="muted">CAPÍTULO.</span></h2>{socials.filter(s=>s.url).map(s=><a class="text-link" href={s.url} target="_blank" rel="noopener noreferrer">{s.name} ↗</a>)}<p>{identity.email?'Para colaboraciones:':'El contacto profesional se publicará próximamente.'}</p>{identity.email&&<a class="button light" href={'mailto:'+identity.email}>{identity.email} ↗</a>}</section>
+</Layout>

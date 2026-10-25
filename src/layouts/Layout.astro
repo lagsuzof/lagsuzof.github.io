@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource-variable/inter';
+import { identity, socials, navigation } from '../data/site';
+import { path } from '../lib/urls';
+interface Props {title:string;description:string;noindex?:boolean;profile?:boolean}
+const {title,description,noindex=false,profile=false}=Astro.props;
+const origin=Astro.site??new URL('https://example.com');
+const canonical=new URL(Astro.url.pathname,origin).href;
+const root=new URL(path(''),origin).href;
+const configured=origin.hostname!=='example.com';
+const photo=new URL(path('images/about-900.webp'),origin).href;
+const graph=[
+ {'@type':'Person','@id':root+'#person',name:identity.name,alternateName:identity.alias,jobTitle:'Creador de contenido digital',description:identity.description,url:root,image:photo,sameAs:socials.filter(s=>s.url).map(s=>s.url)},
+ {'@type':'WebSite','@id':root+'#website',name:'Lagsuz',url:root,inLanguage:'es-MX',publisher:{'@id':root+'#person'}},
+ {'@type':profile?'ProfilePage':'WebPage','@id':canonical+'#webpage',url:canonical,name:title,description,inLanguage:'es-MX',isPartOf:{'@id':root+'#website'},mainEntity:{'@id':root+'#person'}},
+ ...(profile?[]:[{'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Inicio',item:root},{'@type':'ListItem',position:2,name:noindex?'Página no encontrada':'Media kit',item:canonical}]}])
+];
+---
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="theme-color" content="#050505"/>
+<title>{title}</title><meta name="description" content={description}/><meta name="robots" content={noindex||!configured?'noindex, follow':'index, follow'}/>
+<link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href={path('favicon.svg')}/>
+<meta property="og:type" content={profile?'profile':'website'}/><meta property="og:locale" content="es_MX"/><meta property="og:site_name" content="Lagsuz"/>
+<meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/>
+<meta property="og:image" content={new URL(path('images/social.jpg'),origin).href}/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content="Retrato de Lagsuz, Luis Gutiérrez Zamora"/>
+<meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/><meta name="twitter:image" content={new URL(path('images/social.jpg'),origin).href}/>
+<script type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@graph':graph}).replace(/</g,'\\u003c')}/>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a><div class="reading-progress" aria-hidden="true"></div>
+<header class="header wrap"><a class="logo" href={path('')} aria-label="Lagsuz, inicio">LAGSUZ<span>↗</span></a>
+<button class="menu-toggle" aria-expanded="false" aria-controls="main-nav">Menú <span aria-hidden="true">＋</span></button>
+<nav id="main-nav" aria-label="Navegación principal">{navigation.map(n=><a href={path('')+'#'+n.anchor}>{n.label}</a>)}<a href={path('media-kit/')}>Media kit</a><a class="nav-connect" href={path('')+'#connect'}>Conecta <span aria-hidden="true">↗</span></a></nav></header>
+<main id="main"><slot/></main>
+<footer class="wrap footer"><a class="logo" href={path('')}>LAGSUZ<span>↗</span></a><p>© {new Date().getFullYear()} Lagsuz · Luis Gutiérrez Zamora</p><a href="#main">Volver arriba ↑</a><span class="footer-note">HECHO DE DISCIPLINA. DESDE MÉXICO.</span></footer>
+<script>
+const toggle=document.querySelector<HTMLButtonElement>('.menu-toggle');
+const nav=document.querySelector<HTMLElement>('#main-nav');
+const close=()=>{toggle?.setAttribute('aria-expanded','false');nav?.classList.remove('open');};
+toggle?.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';toggle.setAttribute('aria-expanded',String(open));nav?.classList.toggle('open',open);});
+nav?.querySelectorAll('a').forEach(link=>link.addEventListener('click',close));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&toggle?.getAttribute('aria-expanded')==='true'){close();toggle.focus();}});
+document.addEventListener('click',e=>{if(e.target instanceof Node&&!nav?.contains(e.target)&&!toggle?.contains(e.target))close();});
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window){
+ const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('revealed');observer.unobserve(entry.target);}}),{threshold:0.12});
+ document.querySelectorAll<HTMLElement>('[data-reveal]').forEach(el=>{el.classList.add('reveal-ready');observer.observe(el);});
+}
+</script>
+</body></html>

@@ -1,0 +1,7 @@
+---
+import { path } from '../lib/urls';
+interface Props {name:string;alt:string;class?:string;eager?:boolean;sizes?:string;width?:number;height?:number}
+const {name,alt,class:className,eager=false,sizes='(max-width:700px) 100vw, 50vw',width=900,height=1400}=Astro.props;
+const srcset=(format:string)=>[480,900,1400].map(w=>`${path(`images/${name}-${w}.${format}`)} ${w}w`).join(', ');
+---
+<picture class={className}><source type="image/avif" srcset={srcset('avif')} sizes={sizes}/><source type="image/webp" srcset={srcset('webp')} sizes={sizes}/><img src={path(`images/${name}-900.webp`)} alt={alt} width={width} height={height} loading={eager?'eager':'lazy'} fetchpriority={eager?'high':'auto'} decoding="async"/></picture>

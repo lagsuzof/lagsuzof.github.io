@@ -1,0 +1,3 @@
+import type {APIRoute} from 'astro';
+import {identity,metrics,socials} from '../data/site';
+export const GET:APIRoute=()=>new Response(`LAGSUZ — MEDIA KIT\n\n${identity.name}\n${identity.country}\n\nBIOGRAFÍA CORTA\n${identity.shortBio}\n\nBIOGRAFÍA EXTENDIDA\n${identity.longBio}\n\nMÉTRICAS\n${metrics.views} visualizaciones\n${metrics.likes} likes\n${metrics.note}\n\nENLACES\n${socials.filter(s=>s.url).map(s=>s.name+': '+s.url).join('\n')||'Perfiles oficiales pendientes de incorporar.'}\n${identity.email||'Contacto profesional pendiente de incorporar.'}\n`,{headers:{'Content-Type':'text/plain; charset=utf-8'}});
